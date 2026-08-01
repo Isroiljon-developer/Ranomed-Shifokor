@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Sidebar = () => {
@@ -6,25 +6,25 @@ const Sidebar = () => {
   const location = useLocation();
 
   const menuItems = [
-    { path: '/dashboard', icon: '🏠', label: 'Dashboard' },
-    { path: '/patients', icon: '👥', label: 'Bemorlar' },
-    { path: '/wards', icon: '🛏️', label: 'Palatalar' },
-    { path: '/history', icon: '📜', label: 'Tarix' },
-    { path: '/profile', icon: '👤', label: 'Profil' },
+    { path: '/dashboard', icon: 'рџЏ ', label: 'Dashboard' },
+    { path: '/patients', icon: 'рџ‘Ґ', label: 'Bemorlar' },
+    { path: '/wards', icon: 'рџ›ЏпёЏ', label: 'Palatalar' },
+    { path: '/history', icon: 'рџ“њ', label: 'Tarix' },
+    { path: '/profile', icon: 'рџ‘¤', label: 'Profil' },
   ];
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('doctorLoggedIn');
-    window.location.href = 'http://localhost:5173/login';
+    window.location.href = '/login';
   };
 
   return (
     <div className="sidebar">
       <div className="sidebar-header">
         <div className="sidebar-logo">
-          <div className="sidebar-logo-icon">🏥</div>
+          <div className="sidebar-logo-icon">рџЏҐ</div>
           <span className="sidebar-logo-text">Ranomed -2 </span>
         </div>
       </div>
@@ -44,7 +44,7 @@ const Sidebar = () => {
 
       <div className="sidebar-footer">
         <div className="nav-item" onClick={handleLogout}>
-          <span className="nav-item-icon">🚪</span>
+          <span className="nav-item-icon">рџљЄ</span>
           <span>Chiqish</span>
         </div>
       </div>
@@ -53,3 +53,4 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -26,7 +26,7 @@ import Profile from './pages/Profile';
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
   if (!token) {
-    window.location.href = 'http://localhost:5173/login';
+    window.location.href = '/login';
     return null;
   }
   return children;

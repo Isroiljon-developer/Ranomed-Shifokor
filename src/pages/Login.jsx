@@ -17,24 +17,22 @@ const Login = () => {
     try {
       const response = await api.post('/auth/login', formData);
 
-      if (!response || !response.token || !response.user) {
+      if (response && response.token && response.user) {
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('isAuthenticated', 'true');
+        navigate('/dashboard');
+      } else if (response && response.mock) {
+        // Mock rejimda — test foydalanuvchi sifatida kirish
+        localStorage.setItem('token', 'mock-token-doctor');
+        localStorage.setItem('user', JSON.stringify({ name: 'Test Shifokor', role: 'doctor' }));
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('isAuthenticated', 'true');
+        navigate('/dashboard');
+      } else {
         setError("Server javobida xatolik");
-        setLoading(false);
-        return;
       }
-
-      const role = response.user.role;
-      if (role !== 'admin' && role !== 'doctor') {
-        setError("Bu panel faqat Shifokor uchun! Siz " + role + " rolidagilar uchun boshqa panelga kirishingiz kerak.");
-        setLoading(false);
-        return;
-      }
-
-      localStorage.setItem('token', response.token);
-      localStorage.setItem('user', JSON.stringify(response.user));
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('isAuthenticated', 'true');
-      navigate('/dashboard');
     } catch (err) {
       console.error('Login error:', err);
       setError(err.message || "Login yoki parol noto'g'ri");
@@ -148,28 +146,6 @@ const Login = () => {
               {loading ? 'Kirish...' : 'Kirish'}
             </button>
           </form>
-
-          <div style={{ marginTop: 24, paddingTop: 20, borderTop: '1px solid #f1f5f9' }}>
-            <p style={{ fontSize: 11, fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', textAlign: 'center', marginBottom: 12 }}>
-              Sinov uchun login va parol:
-            </p>
-            <div
-              onClick={() => setFormData({ username: 'doctor', password: 'doctor123' })}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', borderRadius: 12, background: '#f8fafc', border: '1px solid #e2e8f0', cursor: 'pointer', transition: 'all 0.2s' }}
-              onMouseEnter={e => e.currentTarget.style.background = '#eff6ff'}
-              onMouseLeave={e => e.currentTarget.style.background = '#f8fafc'}
-            >
-              <div>
-                <p style={{ fontSize: 12, color: '#64748b', margin: 0, marginBottom: 2 }}>Shifokor uchun:</p>
-                <p style={{ fontSize: 14, fontWeight: 600, color: '#0f172a', margin: 0 }}>Login: <span style={{ color: '#3b82f6', fontFamily: 'monospace' }}>doctor</span></p>
-              </div>
-              <div style={{ textAlign: 'right' }}>
-                <span style={{ fontSize: 12, color: '#64748b', display: 'block', marginBottom: 2 }}>Parol:</span>
-                <span style={{ fontSize: 12, fontFamily: 'monospace', fontWeight: 700, background: '#e2e8f0', color: '#374151', padding: '2px 8px', borderRadius: 6 }}>doctor123</span>
-              </div>
-            </div>
-            <p style={{ fontSize: 11, textAlign: 'center', color: '#94a3b8', marginTop: 8 }}>(Ustiga bossangiz, avtomatik to'ldiriladi)</p>
-          </div>
         </div>
       </div>
     </div>

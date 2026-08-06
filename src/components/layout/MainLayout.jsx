@@ -7,8 +7,8 @@ const MainLayout = ({ children, title }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem('doctorLoggedIn');
-    if (!isLoggedIn) {
+    const token = localStorage.getItem('token');
+    if (!token) {
       navigate('/login');
     }
   }, [navigate]);

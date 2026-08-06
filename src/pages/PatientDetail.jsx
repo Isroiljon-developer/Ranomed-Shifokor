@@ -131,6 +131,21 @@ const PatientDetail = () => {
     }
   };
 
+  const handleCallQueue = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      await api.post('/reception/call-patient', {
+        patientName: patient?.ism || 'Bemor',
+        doctorName: user.name || 'Shifokor',
+        room: user.room || '1-xona',
+        filialId: user.filialId || patient?.filialId || 1
+      });
+      showToast('📢 Bemor elektron navbat taxtasida va ovozda chaqirildi!', 'success');
+    } catch (e) {
+      showToast('Chaqirishda xatolik', 'error');
+    }
+  };
+
   const confirmDischarge = async () => {
     try {
       await api.put(`/patient/${id}`, { holat: 'Chiqarilgan' });
@@ -199,6 +214,13 @@ const PatientDetail = () => {
         </div>
         <div style={{ marginLeft: 'auto', display: 'flex', gap: '12px' }}>
           <button
+            className="btn btn-warning"
+            onClick={handleCallQueue}
+            style={{ background: '#f59e0b', color: 'white', border: 'none' }}
+          >
+            📢 Navbatda Chaqirish
+          </button>
+          <button
             className="btn btn-success"
             onClick={() => setShowWardModal(true)}
             disabled={sentToReception}
@@ -210,6 +232,7 @@ const PatientDetail = () => {
           </button>
         </div>
       </div>
+
 
       <div className="patient-grid">
         {/* Left Column */}
